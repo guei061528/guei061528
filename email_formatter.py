@@ -43,6 +43,9 @@ class Patch:
 class EmailFormatter:
     """Formats test results into email format"""
     
+    # Text formatting constants
+    TEXT_WIDTH = 80
+    
     def __init__(self, test_info: TestInfo):
         self.test_info = test_info
         self.failed_testcases: List[TestCase] = []
@@ -375,9 +378,9 @@ class EmailFormatter:
     
     def format_plain_text(self) -> str:
         """Generate plain text formatted email"""
-        text = "=" * 80 + "\n"
+        text = "=" * self.TEXT_WIDTH + "\n"
         text += "TEST REPORT\n"
-        text += "=" * 80 + "\n\n"
+        text += "=" * self.TEXT_WIDTH + "\n\n"
         
         # Section 1: Test Information
         text += self._format_test_info_text()
@@ -398,7 +401,7 @@ class EmailFormatter:
         if self.pending_patches:
             text += self._format_pending_patches_text()
         
-        text += "=" * 80 + "\n"
+        text += "=" * self.TEXT_WIDTH + "\n"
         return text
     
     def _format_test_info_text(self) -> str:
@@ -407,7 +410,7 @@ class EmailFormatter:
         pass_rate = (pass_count / self.test_info.total_count * 100) if self.test_info.total_count > 0 else 0
         
         return f"""1. TEST INFORMATION
-{"-" * 80}
+{"-" * self.TEXT_WIDTH}
 Daily Build:     {self.test_info.daily_build_name}
 Platform:        {self.test_info.platform}
 Configuration:   {self.test_info.config}
@@ -420,7 +423,7 @@ Pass Rate:       {pass_rate:.1f}%
     def _format_test_results_text(self) -> str:
         """Format test results section in plain text"""
         text = f"""2. TEST RESULTS ({len(self.failed_testcases)} Failed Test Cases)
-{"-" * 80}
+{"-" * self.TEXT_WIDTH}
 """
         
         for i, testcase in enumerate(self.failed_testcases, 1):
@@ -437,7 +440,7 @@ Pass Rate:       {pass_rate:.1f}%
     def _format_failed_patches_text(self) -> str:
         """Format failed patches section in plain text"""
         text = f"""3. FAILED PATCHES ({len(self.failed_patches)})
-{"-" * 80}
+{"-" * self.TEXT_WIDTH}
 """
         
         for i, patch in enumerate(self.failed_patches, 1):
@@ -451,7 +454,7 @@ Pass Rate:       {pass_rate:.1f}%
     def _format_skipped_patches_text(self) -> str:
         """Format skipped patches section in plain text"""
         text = f"""4. SKIPPED PATCHES ({len(self.skipped_patches)})
-{"-" * 80}
+{"-" * self.TEXT_WIDTH}
 """
         
         for i, patch in enumerate(self.skipped_patches, 1):
@@ -467,7 +470,7 @@ Pass Rate:       {pass_rate:.1f}%
     def _format_pending_patches_text(self) -> str:
         """Format pending prebuilt patches section in plain text"""
         text = f"""5. PENDING PREBUILT PATCHES ({len(self.pending_patches)})
-{"-" * 80}
+{"-" * self.TEXT_WIDTH}
 NOTE: These patches are scheduled to be tested. When multiple patches from the
       same repository are detected, they are tested sequentially starting from
       the oldest.
