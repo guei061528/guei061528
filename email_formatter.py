@@ -7,6 +7,7 @@ It supports both HTML and plain text formats.
 
 from typing import List, Optional
 from dataclasses import dataclass
+import html
 
 
 @dataclass
@@ -48,6 +49,11 @@ class EmailFormatter:
         self.failed_patches: List[Patch] = []
         self.skipped_patches: List[Patch] = []
         self.pending_patches: List[Patch] = []
+    
+    @staticmethod
+    def _escape_html(text: str) -> str:
+        """Escape HTML special characters to prevent XSS"""
+        return html.escape(str(text)) if text is not None else ""
     
     def add_failed_testcase(self, testcase: TestCase):
         """Add a failed test case"""
@@ -209,19 +215,19 @@ class EmailFormatter:
     <div class="info-section">
         <div class="info-item">
             <span class="info-label">Daily Build:</span>
-            <span>{self.test_info.daily_build_name}</span>
+            <span>{self._escape_html(self.test_info.daily_build_name)}</span>
         </div>
         <div class="info-item">
             <span class="info-label">Platform:</span>
-            <span>{self.test_info.platform}</span>
+            <span>{self._escape_html(self.test_info.platform)}</span>
         </div>
         <div class="info-item">
             <span class="info-label">Configuration:</span>
-            <span>{self.test_info.config}</span>
+            <span>{self._escape_html(self.test_info.config)}</span>
         </div>
         <div class="info-item">
             <span class="info-label">Test Plan:</span>
-            <span>{self.test_info.test_plan_name}</span>
+            <span>{self._escape_html(self.test_info.test_plan_name)}</span>
         </div>
         <div class="info-item">
             <span class="info-label">Test Results:</span>
@@ -251,15 +257,15 @@ class EmailFormatter:
         for testcase in self.failed_testcases:
             perf_display = ""
             if testcase.performance_value is not None:
-                unit = testcase.performance_unit or ""
+                unit = self._escape_html(testcase.performance_unit) if testcase.performance_unit else ""
                 perf_display = f'<span class="performance-value">{testcase.performance_value} {unit}</span>'
             else:
                 perf_display = "N/A"
             
             html += f"""
             <tr>
-                <td class="testcase-name">{testcase.name}</td>
-                <td>{testcase.detail}</td>
+                <td class="testcase-name">{self._escape_html(testcase.name)}</td>
+                <td>{self._escape_html(testcase.detail)}</td>
                 <td>{perf_display}</td>
             </tr>
 """
@@ -288,9 +294,9 @@ class EmailFormatter:
         for patch in self.failed_patches:
             html += f"""
             <tr>
-                <td><a href="{patch.link}" class="patch-link">{patch.link}</a></td>
-                <td>{patch.owner}</td>
-                <td>{patch.title}</td>
+                <td><a href="{self._escape_html(patch.link)}" class="patch-link">{self._escape_html(patch.link)}</a></td>
+                <td>{self._escape_html(patch.owner)}</td>
+                <td>{self._escape_html(patch.title)}</td>
             </tr>
 """
         
@@ -317,12 +323,12 @@ class EmailFormatter:
 """
         
         for patch in self.skipped_patches:
-            skip_reason = patch.skip_reason or "Not specified"
+            skip_reason = self._escape_html(patch.skip_reason) if patch.skip_reason else "Not specified"
             html += f"""
             <tr>
-                <td><a href="{patch.link}" class="patch-link">{patch.link}</a></td>
-                <td>{patch.owner}</td>
-                <td>{patch.title}</td>
+                <td><a href="{self._escape_html(patch.link)}" class="patch-link">{self._escape_html(patch.link)}</a></td>
+                <td>{self._escape_html(patch.owner)}</td>
+                <td>{self._escape_html(patch.title)}</td>
                 <td class="skip-reason">{skip_reason}</td>
             </tr>
 """
@@ -355,9 +361,9 @@ class EmailFormatter:
         for patch in self.pending_patches:
             html += f"""
             <tr>
-                <td><a href="{patch.link}" class="patch-link">{patch.link}</a></td>
-                <td>{patch.owner}</td>
-                <td>{patch.title}</td>
+                <td><a href="{self._escape_html(patch.link)}" class="patch-link">{self._escape_html(patch.link)}</a></td>
+                <td>{self._escape_html(patch.owner)}</td>
+                <td>{self._escape_html(patch.title)}</td>
             </tr>
 """
         
