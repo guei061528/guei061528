@@ -30,7 +30,38 @@ def example_build_failure():
     
     formatter = EmailFormatter(test_info)
     
-    # No test results or patches because build failed
+    # Even though build failed, still show the patches that were queued for testing
+    # These patches couldn't be tested due to the build failure
+    formatter.add_failed_patch(Patch(
+        link="https://github.com/example/repo/pull/401",
+        owner="john.doe",
+        title="Fix authentication issue in login module"
+    ))
+    
+    formatter.add_failed_patch(Patch(
+        link="https://github.com/example/repo/pull/402",
+        owner="jane.smith",
+        title="Update database connection pooling"
+    ))
+    
+    formatter.add_skipped_patch(Patch(
+        link="https://github.com/example/repo/pull/403",
+        owner="bob.wilson",
+        title="Refactor user service layer",
+        skip_reason="Depends on PR #401 which failed to test"
+    ))
+    
+    formatter.add_pending_patch(Patch(
+        link="https://github.com/example/repo/pull/404",
+        owner="alice.chen",
+        title="Add new API endpoints for reporting"
+    ))
+    
+    formatter.add_pending_patch(Patch(
+        link="https://github.com/example/repo/pull/405",
+        owner="charlie.brown",
+        title="Optimize query performance for dashboard"
+    ))
     
     html_email = formatter.format_html()
     text_email = formatter.format_plain_text()

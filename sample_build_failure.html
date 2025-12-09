@@ -137,5 +137,83 @@
         </div>
 
 
+    <h2>3. Failed Patches <span class="section-count">2</span></h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40%;">Patch Link</th>
+                <th style="width: 20%;">Owner</th>
+                <th style="width: 40%;">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/401" class="patch-link">https://github.com/example/repo/pull/401</a></td>
+                <td>john.doe</td>
+                <td>Fix authentication issue in login module</td>
+            </tr>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/402" class="patch-link">https://github.com/example/repo/pull/402</a></td>
+                <td>jane.smith</td>
+                <td>Update database connection pooling</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>4. Skipped Patches <span class="section-count" style="background-color: #f39c12;">1</span></h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 30%;">Patch Link</th>
+                <th style="width: 15%;">Owner</th>
+                <th style="width: 30%;">Title</th>
+                <th style="width: 25%;">Skip Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/403" class="patch-link">https://github.com/example/repo/pull/403</a></td>
+                <td>bob.wilson</td>
+                <td>Refactor user service layer</td>
+                <td class="skip-reason">Depends on PR #401 which failed to test</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>5. Pending Prebuilt Patches <span class="section-count" style="background-color: #3498db;">2</span></h2>
+    <div class="warning-section">
+        <strong>Note:</strong> These patches are scheduled to be tested. 
+        When multiple patches from the same repository are detected, they are tested sequentially starting from the oldest.
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40%;">Patch Link</th>
+                <th style="width: 20%;">Owner</th>
+                <th style="width: 40%;">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/404" class="patch-link">https://github.com/example/repo/pull/404</a></td>
+                <td>alice.chen</td>
+                <td>Add new API endpoints for reporting</td>
+            </tr>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/405" class="patch-link">https://github.com/example/repo/pull/405</a></td>
+                <td>charlie.brown</td>
+                <td>Optimize query performance for dashboard</td>
+            </tr>
+
+        </tbody>
+    </table>
+
 </body>
 </html>

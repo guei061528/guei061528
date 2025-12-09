@@ -6,6 +6,8 @@ Added support for two critical edge cases in the email formatter:
 1. Build failures (when test image cannot be built)
 2. No patches available (when patch retrieval fails or no patches exist)
 
+**Important:** When a build error occurs, the report still displays all patch sections (Failed Patches, Skipped Patches, Pending Patches) to show which patches were queued for testing but couldn't be tested due to the build failure.
+
 ## Changes Made
 
 ### 1. Updated Data Model (`email_formatter.py`)
@@ -57,10 +59,12 @@ No patches were found for testing.
 
 ## Usage Examples
 
-### Example 1: Build Failure
+### Example 1: Build Failure with Patches
+
+Even when build fails, patches that were queued for testing are still displayed:
 
 ```python
-from email_formatter import EmailFormatter, TestInfo
+from email_formatter import EmailFormatter, TestInfo, Patch
 
 test_info = TestInfo(
     daily_build_name="DailyBuild_2025-12-09_v2.0.0",
@@ -73,6 +77,27 @@ test_info = TestInfo(
 )
 
 formatter = EmailFormatter(test_info)
+
+# Add patches that were queued but couldn't be tested due to build failure
+formatter.add_failed_patch(Patch(
+    link="https://github.com/example/repo/pull/401",
+    owner="john.doe",
+    title="Fix authentication issue in login module"
+))
+
+formatter.add_skipped_patch(Patch(
+    link="https://github.com/example/repo/pull/403",
+    owner="bob.wilson",
+    title="Refactor user service layer",
+    skip_reason="Depends on PR #401 which failed to test"
+))
+
+formatter.add_pending_patch(Patch(
+    link="https://github.com/example/repo/pull/404",
+    owner="alice.chen",
+    title="Add new API endpoints for reporting"
+))
+
 html_email = formatter.format_html()
 ```
 
