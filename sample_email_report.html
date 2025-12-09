@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #95a5a6;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        .info-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            margin: 8px 0;
+        }
+        .info-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 180px;
+        }
+        .fail-count {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .pass-count {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background-color: white;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .testcase-name {
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .performance-value {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+        .patch-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .patch-link:hover {
+            text-decoration: underline;
+        }
+        .skip-reason {
+            color: #e67e22;
+            font-style: italic;
+        }
+        .section-count {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .warning-section {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test Report</h1>
+    
+    <h2>1. Test Information</h2>
+    <div class="info-section">
+        <div class="info-item">
+            <span class="info-label">Daily Build:</span>
+            <span>DailyBuild_2025-12-09_v1.2.3</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Platform:</span>
+            <span>Linux x86_64</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Configuration:</span>
+            <span>Release</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Test Plan:</span>
+            <span>Regression Test Suite</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Test Results:</span>
+            <span class="fail-count">3 Failed</span> / 
+            <span class="pass-count">147 Passed</span> / 
+            <span>150 Total</span>
+            <span style="margin-left: 15px;">(98.0% Pass Rate)</span>
+        </div>
+    </div>
+
+    <h2>2. Test Results <span class="section-count">3 Failed</span></h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 30%;">Test Case</th>
+                <th style="width: 50%;">Detail</th>
+                <th style="width: 20%;">Performance</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td class="testcase-name">test_database_connection</td>
+                <td>Connection timeout after 30 seconds. Database server may be unreachable.</td>
+                <td>N/A</td>
+            </tr>
+
+            <tr>
+                <td class="testcase-name">test_api_response_time</td>
+                <td>Response time exceeded threshold. Expected &lt; 200ms, got 450ms.</td>
+                <td><span class="performance-value">450.0 ms</span></td>
+            </tr>
+
+            <tr>
+                <td class="testcase-name">test_memory_usage</td>
+                <td>Memory consumption exceeded limit during stress test.</td>
+                <td><span class="performance-value">2048.5 MB</span></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>3. Failed Patches <span class="section-count">2</span></h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40%;">Patch Link</th>
+                <th style="width: 20%;">Owner</th>
+                <th style="width: 40%;">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/1234" class="patch-link">https://github.com/example/repo/pull/1234</a></td>
+                <td>john.doe</td>
+                <td>Fix authentication issue in login module</td>
+            </tr>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/1235" class="patch-link">https://github.com/example/repo/pull/1235</a></td>
+                <td>jane.smith</td>
+                <td>Update database schema migration</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>4. Skipped Patches <span class="section-count" style="background-color: #f39c12;">2</span></h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 30%;">Patch Link</th>
+                <th style="width: 15%;">Owner</th>
+                <th style="width: 30%;">Title</th>
+                <th style="width: 25%;">Skip Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/1236" class="patch-link">https://github.com/example/repo/pull/1236</a></td>
+                <td>bob.wilson</td>
+                <td>Add new feature for user preferences</td>
+                <td class="skip-reason">Conflicts with pending changes in main branch</td>
+            </tr>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/1237" class="patch-link">https://github.com/example/repo/pull/1237</a></td>
+                <td>alice.johnson</td>
+                <td>Refactor logging module</td>
+                <td class="skip-reason">Waiting for dependency update to complete</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>5. Pending Prebuilt Patches <span class="section-count" style="background-color: #3498db;">2</span></h2>
+    <div class="warning-section">
+        <strong>Note:</strong> These patches are scheduled to be tested. 
+        When multiple patches from the same repository are detected, they are tested sequentially starting from the oldest.
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40%;">Patch Link</th>
+                <th style="width: 20%;">Owner</th>
+                <th style="width: 40%;">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/1238" class="patch-link">https://github.com/example/repo/pull/1238</a></td>
+                <td>charlie.brown</td>
+                <td>Optimize query performance</td>
+            </tr>
+
+            <tr>
+                <td><a href="https://github.com/example/repo/pull/1239" class="patch-link">https://github.com/example/repo/pull/1239</a></td>
+                <td>david.lee</td>
+                <td>Add caching layer for API responses</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</body>
+</html>
