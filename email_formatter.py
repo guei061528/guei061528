@@ -5,9 +5,8 @@ This module provides functionality to format test results into email format.
 It supports both HTML and plain text formats.
 """
 
-from typing import List, Dict, Optional
+from typing import List, Optional
 from dataclasses import dataclass
-from datetime import datetime
 
 
 @dataclass

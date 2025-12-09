@@ -5,6 +5,9 @@ This file demonstrates how to integrate the email formatter with actual email se
 """
 
 import smtplib
+import os
+import tempfile
+from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from typing import List
@@ -128,6 +131,10 @@ def send_test_report_email(
     status = "PASSED" if test_info.fail_count == 0 else "FAILED"
     subject = f"[{status}] Test Report - {test_info.daily_build_name} - {test_info.test_plan_name}"
     
+    # Validate smtp_config
+    if smtp_config is None:
+        smtp_config = {}
+    
     # Send email
     return send_email_smtp(
         subject=subject,
@@ -148,7 +155,7 @@ def save_to_file(
     failed_patches: List[Patch] = None,
     skipped_patches: List[Patch] = None,
     pending_patches: List[Patch] = None,
-    output_dir: str = "/tmp"
+    output_dir: str = None
 ):
     """
     Save test report to files instead of sending email
@@ -160,10 +167,10 @@ def save_to_file(
         failed_patches: List of failed patches
         skipped_patches: List of skipped patches
         pending_patches: List of pending patches
-        output_dir: Directory to save files
+        output_dir: Directory to save files (defaults to system temp directory)
     """
-    import os
-    from datetime import datetime
+    if output_dir is None:
+        output_dir = tempfile.gettempdir()
     
     # Generate timestamp for filename
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

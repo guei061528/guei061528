@@ -2,6 +2,8 @@
 Example usage of the email formatter for test reports
 """
 
+import tempfile
+import os
 from email_formatter import (
     EmailFormatter, 
     TestInfo, 
@@ -96,17 +98,19 @@ def example_basic_usage():
     html_email = formatter.format_html()
     
     # Save to file for preview
-    with open("/tmp/test_report.html", "w", encoding="utf-8") as f:
+    html_path = os.path.join(tempfile.gettempdir(), "test_report.html")
+    with open(html_path, "w", encoding="utf-8") as f:
         f.write(html_email)
-    print("HTML email saved to /tmp/test_report.html")
+    print(f"HTML email saved to {html_path}")
     
     # Generate plain text email
     text_email = formatter.format_plain_text()
     
     # Save to file for preview
-    with open("/tmp/test_report.txt", "w", encoding="utf-8") as f:
+    text_path = os.path.join(tempfile.gettempdir(), "test_report.txt")
+    with open(text_path, "w", encoding="utf-8") as f:
         f.write(text_email)
-    print("Plain text email saved to /tmp/test_report.txt")
+    print(f"Plain text email saved to {text_path}")
     
     return html_email, text_email
 
@@ -236,5 +240,6 @@ if __name__ == "__main__":
     
     print("=" * 80)
     print("Examples completed successfully!")
-    print("Check /tmp/test_report.html and /tmp/test_report.txt for output")
+    temp_dir = tempfile.gettempdir()
+    print(f"Check {temp_dir}/test_report.html and {temp_dir}/test_report.txt for output")
     print("=" * 80)
