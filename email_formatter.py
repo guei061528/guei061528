@@ -19,6 +19,8 @@ class TestInfo:
     test_plan_name: str
     fail_count: int
     total_count: int
+    build_error: Optional[str] = None  # Error message if image build failed
+    no_patches_reason: Optional[str] = None  # Reason if no patches available
 
 
 @dataclass
@@ -211,6 +213,23 @@ class EmailFormatter:
         pass_count = self.test_info.total_count - self.test_info.fail_count
         pass_rate = (pass_count / self.test_info.total_count * 100) if self.test_info.total_count > 0 else 0
         
+        # Build error or no patches warnings
+        warnings_html = ""
+        if self.test_info.build_error:
+            warnings_html += f"""
+        <div class="warning-section" style="background-color: #f8d7da; border-left-color: #dc3545;">
+            <strong>⚠️ Build Error:</strong> {self._escape_html(self.test_info.build_error)}
+            <br><em>Tests could not be executed due to image build failure.</em>
+        </div>
+"""
+        if self.test_info.no_patches_reason:
+            warnings_html += f"""
+        <div class="warning-section" style="background-color: #fff3cd; border-left-color: #ffc107;">
+            <strong>ℹ️ No Patches Available:</strong> {self._escape_html(self.test_info.no_patches_reason)}
+            <br><em>No patches were found for testing.</em>
+        </div>
+"""
+        
         return f"""
     <h1>Test Report</h1>
     
@@ -240,6 +259,7 @@ class EmailFormatter:
             <span style="margin-left: 15px;">({pass_rate:.1f}% Pass Rate)</span>
         </div>
     </div>
+{warnings_html}
 """
     
     def _format_test_results_html(self) -> str:
@@ -409,6 +429,22 @@ class EmailFormatter:
         pass_count = self.test_info.total_count - self.test_info.fail_count
         pass_rate = (pass_count / self.test_info.total_count * 100) if self.test_info.total_count > 0 else 0
         
+        warnings_text = ""
+        if self.test_info.build_error:
+            warnings_text += f"""
+WARNING - BUILD ERROR:
+{self.test_info.build_error}
+Tests could not be executed due to image build failure.
+
+"""
+        if self.test_info.no_patches_reason:
+            warnings_text += f"""
+INFO - NO PATCHES AVAILABLE:
+{self.test_info.no_patches_reason}
+No patches were found for testing.
+
+"""
+        
         return f"""1. TEST INFORMATION
 {"-" * self.TEXT_WIDTH}
 Daily Build:     {self.test_info.daily_build_name}
@@ -418,7 +454,7 @@ Test Plan:       {self.test_info.test_plan_name}
 Test Results:    {self.test_info.fail_count} Failed / {pass_count} Passed / {self.test_info.total_count} Total
 Pass Rate:       {pass_rate:.1f}%
 
-"""
+{warnings_text}"""
     
     def _format_test_results_text(self) -> str:
         """Format test results section in plain text"""

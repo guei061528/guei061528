@@ -12,6 +12,8 @@ A Python module for formatting test results into professional email reports. Sup
    - Test configuration
    - Test plan name
    - Fail count / Total test count
+   - **NEW:** Build error warnings (when image cannot be built)
+   - **NEW:** No patches notifications (when no patches are available)
 
 2. **Test Results**
    - List of failed test cases
@@ -33,6 +35,14 @@ A Python module for formatting test results into professional email reports. Sup
    - Patches waiting to be tested
    - Automatically scheduled when multiple patches from same repository are detected
    - Tests run sequentially from oldest to newest
+
+### Edge Case Handling
+
+The formatter now supports special scenarios:
+
+- **Build Failures**: When test image cannot be built, a prominent warning is displayed
+- **No Patches Available**: When patch retrieval fails or no patches exist, an informational notice is shown
+- Both conditions can be displayed simultaneously if needed
 
 ## Installation
 
@@ -92,13 +102,19 @@ text_email = formatter.format_plain_text()
 ```python
 @dataclass
 class TestInfo:
-    daily_build_name: str      # Name of the daily build
-    platform: str              # Test platform (e.g., "Linux x86_64")
-    config: str                # Test configuration (e.g., "Release", "Debug")
-    test_plan_name: str        # Name of the test plan
-    fail_count: int            # Number of failed tests
-    total_count: int           # Total number of tests
+    daily_build_name: str              # Name of the daily build
+    platform: str                      # Test platform (e.g., "Linux x86_64")
+    config: str                        # Test configuration (e.g., "Release", "Debug")
+    test_plan_name: str                # Name of the test plan
+    fail_count: int                    # Number of failed tests
+    total_count: int                   # Total number of tests
+    build_error: Optional[str] = None  # Error message if image build failed
+    no_patches_reason: Optional[str] = None  # Reason if no patches available
 ```
+
+**Edge Case Fields:**
+- `build_error`: Set this when the test image cannot be built. The error message will be displayed prominently in the report.
+- `no_patches_reason`: Set this when no patches are available for testing. An informational notice will be shown.
 
 #### TestCase
 ```python
@@ -170,6 +186,60 @@ python example_usage.py
 This will generate:
 - `/tmp/test_report.html` - HTML formatted report
 - `/tmp/test_report.txt` - Plain text formatted report
+
+### Edge Case Examples
+
+For build failures and no-patch scenarios, see `example_edge_cases.py`:
+
+```bash
+python example_edge_cases.py
+```
+
+**Edge Case Scenarios:**
+
+1. **Build Failure Example**: When Docker/image build fails
+```python
+test_info = TestInfo(
+    daily_build_name="DailyBuild_2025-12-09",
+    platform="Linux x86_64",
+    config="Release",
+    test_plan_name="Regression Tests",
+    fail_count=0,
+    total_count=0,
+    build_error="Docker image build failed: insufficient disk space"
+)
+```
+
+2. **No Patches Example**: When no patches are available
+```python
+test_info = TestInfo(
+    daily_build_name="DailyBuild_2025-12-09",
+    platform="Linux x86_64",
+    config="Release",
+    test_plan_name="Integration Tests",
+    fail_count=0,
+    total_count=0,
+    no_patches_reason="No new patches in the past 24 hours"
+)
+```
+
+3. **Both Issues**: Can display both warnings simultaneously
+```python
+test_info = TestInfo(
+    daily_build_name="DailyBuild_2025-12-09",
+    platform="Linux x86_64",
+    config="Release",
+    test_plan_name="Full Suite",
+    fail_count=0,
+    total_count=0,
+    build_error="Build timeout after 30 minutes",
+    no_patches_reason="Patch repository unreachable"
+)
+```
+
+Sample outputs:
+- `sample_build_failure.html` - Build error example
+- `sample_no_patches.html` - No patches example
 
 ### Example Output Structure
 
