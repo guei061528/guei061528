@@ -1,0 +1,41 @@
+{
+  "TestInformation": {
+    "chipset": "MacArthur7P",
+    "Model": "DEMETER",
+    "TestcaseName": "test_ccc_11_21_str_dtv",
+    "SQATestcaseName": "11-22. DC off/on (STR) - DTV",
+    "TestLabel": "DC off/on (STR)",
+    "Country": "Germany",
+    "ProjectID": "35",
+    "RC": "NA",
+    "HDCP_KEY": "NA",
+    "RMCA_KEY": "NA",
+    "PanelInfo": "NA",
+    "SourceDevice": "NA",
+    "TimingInfo": "NA",
+    "AudioOutputDevice": "N/A",
+    "CableName": "N/A",
+    "Condition": [
+      "Set Power on behavior home",
+      "Enter DTV source",
+      "DC off and on after 20 sec",
+      "Repeat 3 times and get each DTV source load time"
+    ],
+    "ImageVersion": "808",
+    "DailyBuildNumber": "DB2188",
+    "DeviceSet": "run_patron_set6",
+    "JenkinsURL": "http://172.22.47.32:8080/job/006_Patron_Master/job/Patron_Exec_Test/15084/",
+    "LogPath": "/SRE_AT/Karen/run_patron_set6/Patron_Menu/802/719/functionality_test/test_ccc_11_21_str_dtv/ccc_11_21_str_dtv",
+    "LocalLogPath": "",
+    "JiraComponent": "System",
+    "JiraLabel": "STR",
+    "JiraPriority": "Critical"
+  },
+  "FailLog": {
+    "Value": "Failed",
+    "Detail": "[scaler] MISSING 'RTK Disable Main ForceBG': Failed to disable Main ForceBG."
+  },
+  "ExpectedResult": "DTV source should load successfully after DC off/on cycles",
+  "Problem": "Main ForceBG not disabled properly during source switching",
+  "labels": ["AT", "Patron"]
+}

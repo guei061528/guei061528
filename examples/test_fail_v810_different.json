@@ -1,0 +1,41 @@
+{
+  "TestInformation": {
+    "chipset": "MacArthur7P",
+    "Model": "DEMETER",
+    "TestcaseName": "test_ccc_11_21_str_dtv",
+    "SQATestcaseName": "11-22. DC off/on (STR) - DTV",
+    "TestLabel": "DC off/on (STR)",
+    "Country": "Germany",
+    "ProjectID": "35",
+    "RC": "NA",
+    "HDCP_KEY": "NA",
+    "RMCA_KEY": "NA",
+    "PanelInfo": "NA",
+    "SourceDevice": "NA",
+    "TimingInfo": "NA",
+    "AudioOutputDevice": "N/A",
+    "CableName": "N/A",
+    "Condition": [
+      "Set Power on behavior home",
+      "Enter DTV source",
+      "DC off and on after 20 sec",
+      "Repeat 3 times and get each DTV source load time"
+    ],
+    "ImageVersion": "810",
+    "DailyBuildNumber": "DB2190",
+    "DeviceSet": "run_patron_set6",
+    "JenkinsURL": "http://172.22.47.32:8080/job/006_Patron_Master/job/Patron_Exec_Test/15115/",
+    "LogPath": "/SRE_AT/Karen/run_patron_set6/Patron_Menu/804/721/functionality_test/test_ccc_11_21_str_dtv/ccc_11_21_str_dtv",
+    "LocalLogPath": "",
+    "JiraComponent": "System",
+    "JiraLabel": "STR",
+    "JiraPriority": "Critical"
+  },
+  "FailLog": {
+    "Value": "Failed",
+    "Detail": "[video] Timeout waiting for video signal: No signal detected after 30 seconds."
+  },
+  "ExpectedResult": "DTV source should load successfully after DC off/on cycles",
+  "Problem": "Video signal timeout during source switching",
+  "labels": ["AT", "Patron"]
+}
